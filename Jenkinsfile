@@ -19,9 +19,10 @@ pipeline {
                 echo 'We are running unittest'
             }
         }
-        stage('Run Security scan') {
+        stage('Build docker image') {
             steps {
-                echo 'Security testing is running'
+                echo 'Building docker image'
+                sh 'docker image build -t exampleJavaApp:$BUILD_NUMBER .'
             }
         }
         stage('Build docker image') {
