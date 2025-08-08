@@ -47,5 +47,17 @@ pipeline {
                 }
             }
         }
+
+        stage('Deploy to devenv') {
+            steps {
+                echo "Deploying to dev environment"
+                sh '''
+                    docker container stop mysimpleapp || true
+                    docker container rm mysimpleapp || true
+                    docker run -d --name mysimpleapp -p 8082:8080 ${REPO_NAME}:${BUILD_NUMBER}
+                    docker ps --filter "name=mysimpleapp" --format "table {{.Names}}\t{{.Image}}\t{{.Ports}}"
+                '''
+            }
+        }
     }
 }
