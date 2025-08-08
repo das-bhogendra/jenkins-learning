@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        REPO_NAME = 'bhogendra/simplejavaapp' // lowercase and full repo name
+        REPO_NAME = 'bhogendra920/simplejavaapp' // lowercase and full repo name
     }
 
     stages {
