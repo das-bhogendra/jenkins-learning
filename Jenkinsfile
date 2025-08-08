@@ -1,7 +1,7 @@
 pipeline {
     agent any
-    environment{
-        REPO_NAME='bhogendra/simplejavaapp'
+    environment {
+        REPO_NAME = 'bhogendra/simplejavaapp' // lowercase and full repo name
     }
 
     stages {
@@ -28,22 +28,22 @@ pipeline {
             steps {
                 echo 'Building docker image'
                 sh 'whoami'
-                sh "docker image build -t REPO_NAME/simplejavaapp:${BUILD_NUMBER} ."
+                sh "docker image build -t ${env.REPO_NAME}:${BUILD_NUMBER} ."
             }
         }
 
         stage('Scan docker image') {
             steps {
                 echo 'Scanning docker image'
-                sh "trivy image REPO_NAME/simplejavaapp:${BUILD_NUMBER}"
+                sh "trivy image ${env.REPO_NAME}:${BUILD_NUMBER}"
             }
         }
 
         stage('Push image to registry') {
             steps {
                 echo 'Pushing images'
-                withDockerRegistry([credentialsId: 'dockerhubcredentials', url: ' ']) {
-                    sh "docker push REPO_NAME/simplejavaapp:${BUILD_NUMBER}"
+                withDockerRegistry([credentialsId: 'dockerhubcredentials', url: '']) {
+                    sh "docker push ${env.REPO_NAME}:${BUILD_NUMBER}"
                 }
             }
         }
