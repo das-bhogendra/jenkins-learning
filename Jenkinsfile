@@ -64,38 +64,18 @@ pipeline {
     post {
         success {
             emailext(
-                subject: "✅ Jenkins Build SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-                body: """Hello Team,
-
-Good news! The Jenkins build succeeded.
-
-Job: ${env.JOB_NAME}
-Build Number: ${env.BUILD_NUMBER}
-URL: ${env.BUILD_URL}
-
-Regards,
-Jenkins
-""",
-                to: 'your-email@example.com'
+                to: 'your-email@example.com',
+                mimeType: 'text/html',
+                subject: '${JELLY_SCRIPT, template="build-success-template", field="subject"}',
+                body: '${JELLY_SCRIPT, template="build-success-template", field="body"}'
             )
         }
         failure {
             emailext(
-                subject: "❌ Jenkins Build FAILURE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-                body: """Hello Team,
-
-Unfortunately, the Jenkins build has failed.
-
-Job: ${env.JOB_NAME}
-Build Number: ${env.BUILD_NUMBER}
-URL: ${env.BUILD_URL}
-
-Please check the logs and take necessary action.
-
-Regards,
-Jenkins
-""",
-                to: 'your-email@example.com'
+                to: 'your-email@example.com',
+                mimeType: 'text/html',
+                subject: '${JELLY_SCRIPT, template="build-failure-template", field="subject"}',
+                body: '${JELLY_SCRIPT, template="build-failure-template", field="body"}'
             )
         }
     }
